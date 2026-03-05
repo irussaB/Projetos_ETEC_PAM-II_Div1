@@ -23,6 +23,8 @@ type
     BindingsList1: TBindingsList;
     LinkListControlToField1: TLinkListControlToField;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -36,11 +38,28 @@ implementation
 
 {$R *.fmx}
 
-uses umodulo;
+uses umodulo, uiuusuario;
 
 procedure Tfrmlistausuarios.Button1Click(Sender: TObject);
 begin
     Close;
+end;
+
+procedure Tfrmlistausuarios.Button2Click(Sender: TObject);
+begin
+     Frmiuusuario.id:=0;
+     Frmiuusuario.show;
+end;
+
+procedure Tfrmlistausuarios.FormShow(Sender: TObject);
+begin
+    with dm.usuario do
+      begin
+          Close;
+          SQL.Clear;
+          SQL.Add('select * from usuarios;');
+          Open;
+      end;
 end;
 
 end.

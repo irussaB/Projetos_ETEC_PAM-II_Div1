@@ -21,6 +21,7 @@ type
     btngravar: TButton;
     procedure btngravarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -63,20 +64,30 @@ begin
   end;
 end;
 
+procedure Tfrmiuusuario.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+    edtusunome.Text:='';
+    edtusulogin.Text:='';
+    edtususenha.Text:='';
+end;
+
 procedure Tfrmiuusuario.FormShow(Sender: TObject);
 begin
-  id:=1;
-  With dm.usuario do
+if(id<>0)then
   begin
-    close;
-    sql.clear;
-    sql.Add('Select * From usuarios where usuid = :id;');
-    parambyname('id').value:=id;
-    open;
+    With dm.usuario do
+      begin
+        close;
+        sql.clear;
+        sql.Add('Select * From usuarios where usuid = :id;');
+        parambyname('id').value:=id;
+        open;
+       end;
+    edtusunome.Text:=dm.usuariousunome.AsString;
+    edtusulogin.Text:=dm.usuariousulogin.AsString;
+    edtususenha.Text:=dm.usuarioususenha.AsString;
   end;
-  edtusunome.Text:=dm.usuariousunome.AsString;
-  edtusulogin.Text:=dm.usuariousulogin.AsString;
-  edtususenha.Text:=dm.usuarioususenha.AsString;
+
 end;
 
 end.
